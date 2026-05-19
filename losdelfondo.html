@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#080808">
+<title>Los del Fondo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080808;
+  --surf:     #111111;
+  --surf2:    #1A1A1A;
+  --border:   #252525;
+  --gold:     #F5B800;
+  --gold-dim: rgba(245,184,0,0.12);
+  --text:     #EDEBE4;
+  --muted:    #555;
+  --red:      #E63946;
+  --blue:     #1A6FC4;
+  --green:    #1E8A5E;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+
+html,body{height:100%;overflow:hidden}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Barlow Condensed',sans-serif;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  height:100dvh;
+}
+
+/* ── INTRO SPLASH ─────────────────────────── */
+#splash{
+  position:fixed;inset:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:200;
+  animation:splashOut 0.4s 1.4s ease forwards;
+}
+@keyframes splashOut{to{opacity:0;pointer-events:none}}
+
+.splash-bar{
+  display:flex;align-items:center;gap:0;
+  animation:barIn 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes barIn{from{opacity:0;transform:scaleX(0.3)}to{opacity:1;transform:scaleX(1)}}
+
+.splash-sleeve{width:14px;height:10px;background:#333;border-radius:2px}
+.splash-collar{width:10px;height:20px;background:#444;border-radius:3px}
+.splash-plate{height:44px;border-radius:4px;border:1px solid rgba(255,255,255,0.08)}
+.splash-bar-mid{width:80px;height:8px;background:#222;border-radius:2px}
+
+.splash-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:46px;letter-spacing:0.14em;
+  color:var(--gold);
+  margin-top:18px;
+  animation:logoIn 0.6s 0.6s cubic-bezier(0.22,1,0.36,1) both;
+}
+.splash-logo span{color:var(--text)}
+@keyframes logoIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.splash-sub{
+  font-size:12px;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--muted);
+  margin-top:6px;
+  animation:logoIn 0.6s 0.9s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* ── HEADER ───────────────────────────────── */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px 7px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  background:var(--bg);
+}
+
+.hdr-left{display:flex;align-items:center;gap:10px}
+
+.logo-text{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:0.12em;
+  color:var(--gold);line-height:1;
+}
+.logo-text em{color:var(--text);font-style:normal}
+
+/* mini barbell */
+.mini-bar{display:flex;align-items:center;gap:2px;animation:wiggle 3s 2s ease-in-out infinite}
+@keyframes wiggle{0%,90%,100%{transform:rotate(0deg)}93%{transform:rotate(-4deg)}96%{transform:rotate(4deg)}}
+.mb-end{width:4px;height:7px;background:#444;border-radius:1px}
+.mb-col{width:3px;height:12px;background:#555;border-radius:1px}
+.mb-p{height:18px;border-radius:2px;border:1px solid rgba(255,255,255,0.1)}
+.mb-rod{width:20px;height:5px;background:#2a2a2a;border-radius:1px}
+
+.hdr-right{display:flex;align-items:center;gap:8px}
+
+.bar-sel{
+  background:var(--surf2);border:1px solid var(--border);
+  color:var(--text);font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:700;padding:4px 8px;border-radius:6px;
+  appearance:none;cursor:pointer;
+}
+
+.cfg-btn{
+  width:30px;height:30px;
+  background:var(--surf2);border:1px solid var(--border);
+  border-radius:8px;color:var(--muted);font-size:15px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:color .2s,border-color .2s;
+}
+.cfg-btn.on{color:var(--gold);border-color:var(--gold)}
+
+/* ── EXERCISE TABS ────────────────────────── */
+.ex-tabs{
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  background:var(--surf);
+}
+.ex-tabs::-webkit-scrollbar{display:none}
+
+.ex-tab{
+  flex-shrink:0;
+  padding:8px 14px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:0.07em;
+  text-transform:uppercase;
+  color:var(--muted);background:none;border:none;
+  border-bottom:2px solid transparent;cursor:pointer;
+  margin-bottom:-1px;transition:color .15s;white-space:nowrap;
+}
+.ex-tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── 1RM SECTION ──────────────────────────── */
+.rm-row{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 12px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  background:var(--surf);
+}
+
+.rm-tag{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;color:var(--gold);flex-shrink:0;
+}
+
+.rm-num{
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--text);font-family:'Bebas Neue',sans-serif;
+  font-size:26px;letter-spacing:0.04em;
+  width:88px;padding:2px 6px;border-radius:6px;
+  text-align:center;outline:none;transition:border-color .2s;
+  -moz-appearance:textfield;
+}
+.rm-num::-webkit-outer-spin-button,
+.rm-num::-webkit-inner-spin-button{appearance:none;margin:0}
+.rm-num:focus{border-color:var(--gold)}
+
+.unit-tog{
+  display:flex;border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;flex-shrink:0;
+}
+.unit-btn{
+  padding:4px 10px;font-size:11px;font-weight:800;
+  font-family:'Barlow Condensed',sans-serif;
+  background:none;border:none;color:var(--muted);
+  cursor:pointer;letter-spacing:0.05em;
+  transition:background .15s,color .15s;
+}
+.unit-btn.on{background:var(--gold);color:#000}
+
+.rm-conv{
+  font-size:11px;font-weight:700;color:var(--muted);
+  flex-shrink:0;letter-spacing:0.03em;
+}
+
+/* ── TABLE HEAD ───────────────────────────── */
+.t-head{
+  display:grid;grid-template-columns:42px 66px 62px 1fr;
+  gap:4px;padding:4px 12px;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  background:var(--surf);
+}
+.th{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ── TABLE BODY ───────────────────────────── */
+.t-body{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+
+.t-row{
+  display:grid;grid-template-columns:42px 66px 62px 1fr;
+  gap:4px;padding:0 12px;
+  flex:1;align-items:center;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.t-row:last-child{border-bottom:none}
+.t-row.approx-row{background:rgba(245,184,0,0.03)}
+.t-row.max-row{background:rgba(255,255,255,0.02)}
+.t-row.low-row{opacity:0.55}
+
+.t-pct{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(16px,2.5vw,20px);
+  color:var(--gold);line-height:1;
+}
+.t-row.max-row .t-pct{color:var(--text)}
+
+.t-kg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(13px,2vw,16px);
+  font-weight:700;color:var(--text);line-height:1;
+  white-space:nowrap;
+}
+.t-kg.approx::before{
+  content:'≈';font-size:10px;
+  color:var(--gold);margin-right:1px;vertical-align:middle;
+}
+
+.t-lbs{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(11px,1.8vw,13px);
+  font-weight:600;color:var(--muted);line-height:1;
+  white-space:nowrap;
+}
+
+.plates-cell{
+  display:flex;align-items:center;gap:3px;
+  overflow:hidden;flex-wrap:nowrap;
+  max-height:100%;
+}
+
+.chip{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(9px,1.5vw,11px);font-weight:800;
+  padding:1px 5px;border-radius:3px;
+  line-height:1.5;white-space:nowrap;flex-shrink:0;
+}
+
+.sola-barra{font-size:10px;color:var(--muted);font-weight:600;font-style:italic}
+.bajo-barra{font-size:10px;color:var(--red);font-weight:600}
+
+/* ── CONFIG MODAL ─────────────────────────── */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);
+  z-index:100;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.overlay.on{opacity:1;pointer-events:all}
+
+.sheet{
+  background:var(--surf);
+  border-radius:16px 16px 0 0;
+  border-top:1px solid var(--border);
+  max-height:86vh;display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(0.32,0.72,0,1);
+}
+.overlay.on .sheet{transform:translateY(0)}
+
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0}
+
+.sheet-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;border-bottom:1px solid var(--border);
+}
+.sheet-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;color:var(--gold);letter-spacing:0.08em;
+}
+.sheet-close{
+  background:none;border:none;color:var(--muted);
+  font-size:18px;cursor:pointer;padding:4px;
+}
+
+.sheet-body{overflow-y:auto;padding:14px 16px;flex:1}
+
+.s-title{
+  font-size:10px;font-weight:800;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);
+  margin:14px 0 8px;
+}
+.s-title:first-child{margin-top:0}
+
+.inv-cols{
+  display:grid;grid-template-columns:1fr 66px 52px 30px;
+  gap:6px;margin-bottom:4px;align-items:center;
+}
+.inv-col-hdr{
+  font-size:9px;font-weight:800;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);text-align:center;
+}
+.inv-col-hdr:first-child{text-align:left}
+
+.inv-row{
+  display:grid;grid-template-columns:1fr 66px 52px 30px;
+  gap:6px;margin-bottom:7px;align-items:center;
+}
+.ii{
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--text);font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;font-weight:700;padding:5px 8px;
+  border-radius:6px;width:100%;outline:none;text-align:center;
+  -moz-appearance:textfield;
+}
+.ii::-webkit-outer-spin-button,.ii::-webkit-inner-spin-button{appearance:none}
+.ii.sel{appearance:none;cursor:pointer}
+.del{
+  background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.25);
+  color:var(--red);border-radius:6px;width:30px;height:30px;
+  cursor:pointer;font-size:12px;
+}
+
+.add-btn{
+  width:100%;padding:9px;
+  background:var(--gold-dim);border:1px dashed rgba(245,184,0,0.4);
+  color:var(--gold);font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  border-radius:8px;cursor:pointer;margin-top:4px;
+}
+.add-btn:active{background:rgba(245,184,0,0.2)}
+
+.ex-row{
+  display:flex;align-items:center;gap:8px;margin-bottom:7px;
+}
+.ex-ni{
+  flex:1;background:var(--bg);border:1px solid var(--border);
+  color:var(--text);font-family:'Barlow Condensed',sans-serif;
+  font-size:15px;font-weight:700;padding:6px 10px;border-radius:6px;outline:none;
+}
+
+.save-note{
+  text-align:center;font-size:11px;font-weight:600;
+  color:var(--muted);padding:14px;letter-spacing:0.04em;
+}
+
+/* ── ROW ENTRANCE ANIM ────────────────────── */
+@keyframes rowSlide{
+  from{opacity:0;transform:translateX(-10px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.t-row{animation:rowSlide 0.35s ease both}
+
+/* ── FLASH on RM change ───────────────────── */
+@keyframes numFlash{
+  0%{color:var(--gold)}
+  60%{color:var(--text)}
+  100%{color:var(--text)}
+}
+.flash-anim{animation:numFlash 0.5s ease}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-bar">
+    <div class="splash-sleeve"></div>
+    <div class="splash-collar"></div>
+    <div class="splash-plate" style="width:12px;background:#1A6FC4;"></div>
+    <div class="splash-plate" style="width:10px;background:#F5B800;margin-left:1px"></div>
+    <div class="splash-bar-mid"></div>
+    <div class="splash-plate" style="width:10px;background:#F5B800;margin-right:1px"></div>
+    <div class="splash-plate" style="width:12px;background:#1A6FC4;"></div>
+    <div class="splash-collar"></div>
+    <div class="splash-sleeve"></div>
+  </div>
+  <div class="splash-logo">LOS DEL <span>FONDO</span></div>
+  <div class="splash-sub">calculadora de discos</div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="mini-bar">
+      <div class="mb-end"></div>
+      <div class="mb-col"></div>
+      <div class="mb-p" style="width:7px;background:#1A6FC4"></div>
+      <div class="mb-p" style="width:5px;background:#F5B800;margin-left:1px"></div>
+      <div class="mb-rod"></div>
+      <div class="mb-p" style="width:5px;background:#F5B800;margin-right:1px"></div>
+      <div class="mb-p" style="width:7px;background:#1A6FC4"></div>
+      <div class="mb-col"></div>
+      <div class="mb-end"></div>
+    </div>
+    <div class="logo-text">LOS DEL <em>FONDO</em></div>
+  </div>
+  <div class="hdr-right">
+    <select class="bar-sel" id="barSel" onchange="setBar(+this.value)">
+      <option value="20">♂ 20 kg</option>
+      <option value="15">♀ 15 kg</option>
+      <option value="10">10 kg</option>
+    </select>
+    <button class="cfg-btn" id="cfgBtn" onclick="toggleCfg()">⚙</button>
+  </div>
+</header>
+
+<!-- EXERCISE TABS -->
+<div class="ex-tabs" id="exTabs"></div>
+
+<!-- 1RM ROW -->
+<div class="rm-row">
+  <span class="rm-tag">1RM</span>
+  <input class="rm-num" type="number" id="rmNum" value="100" min="0" step="1" oninput="onRM(this.value)">
+  <div class="unit-tog">
+    <button class="unit-btn on" id="uLbs" onclick="setUnit('lbs')">LBS</button>
+    <button class="unit-btn"   id="uKg"  onclick="setUnit('kg')">KG</button>
+  </div>
+  <div class="rm-conv" id="rmConv"></div>
+</div>
+
+<!-- TABLE HEAD -->
+<div class="t-head">
+  <div class="th">%</div>
+  <div class="th">KG</div>
+  <div class="th">LBS</div>
+  <div class="th">DISCOS / LADO</div>
+</div>
+
+<!-- TABLE BODY -->
+<div class="t-body" id="tBody"></div>
+
+<!-- CONFIG MODAL -->
+<div class="overlay" id="overlay" onclick="bgClick(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <span class="sheet-title">Configurar</span>
+      <button class="sheet-close" onclick="toggleCfg()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="s-title">Discos disponibles</div>
+      <div class="inv-cols" style="margin-bottom:6px">
+        <div class="inv-col-hdr">Peso</div>
+        <div class="inv-col-hdr">Unidad</div>
+        <div class="inv-col-hdr">Cant.</div>
+        <div></div>
+      </div>
+      <div id="invList"></div>
+      <button class="add-btn" onclick="addPlate()">+ Agregar disco</button>
+
+      <div class="s-title">Ejercicios</div>
+      <div id="exList"></div>
+      <button class="add-btn" onclick="addEx()">+ Agregar ejercicio</button>
+
+      <div class="save-note">Los cambios se guardan automáticamente ✓</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Constants ──────────────────────────────────────────────────────
+const K2L = 2.20462;
+const PCTS = [50,55,60,65,70,75,80,85,90,95,100];
+
+// Plate color by kg equivalent
+function chipStyle(kgVal) {
+  if (kgVal >= 20) return 'background:#1A6FC4;color:#fff';   // blue  - 45lbs/20kg
+  if (kgVal >= 14) return 'background:#F5B800;color:#000';   // gold  - 35lbs/15kg
+  if (kgVal >= 9)  return 'background:#1E8A5E;color:#fff';   // green - 25lbs/10kg
+  if (kgVal >= 4)  return 'background:#E0E0E0;color:#000';   // white - 10lbs/5kg
+  if (kgVal >= 1.8)return 'background:#E63946;color:#fff';   // red   - 5lbs/2.5kg
+  if (kgVal >= 0.9)return 'background:#E63946;color:#fff';   // red   - 2.5lbs
+  return 'background:#555;color:#fff';                        // gray  - micro
+}
+
+// ── Default data ───────────────────────────────────────────────────
+const DEF_INV = [
+  {id:1, weight:45,   unit:'lbs', qty:4},
+  {id:2, weight:35,   unit:'lbs', qty:2},
+  {id:3, weight:25,   unit:'lbs', qty:4},
+  {id:4, weight:10,   unit:'lbs', qty:4},
+  {id:5, weight:5,    unit:'lbs', qty:4},
+  {id:6, weight:2.5,  unit:'lbs', qty:4},
+  {id:7, weight:1.25, unit:'kg',  qty:2},
+];
+const DEF_EX = [
+  {id:1, name:'Back Squat',   rm:100, unit:'lbs'},
+  {id:2, name:'Deadlift',     rm:100, unit:'lbs'},
+  {id:3, name:'Clean & Jerk', rm:100, unit:'lbs'},
+  {id:4, name:'Snatch',       rm:100, unit:'lbs'},
+  {id:5, name:'Press',        rm:100, unit:'lbs'},
+];
+
+// ── State ──────────────────────────────────────────────────────────
+let S = loadState();
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('ldf2');
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return {
+    inv: DEF_INV.map(p=>({...p})),
+    exs: DEF_EX.map(e=>({...e})),
+    barKg: 20,
+    activeEx: 0,
+  };
+}
+
+function saveState() {
+  try { localStorage.setItem('ldf2', JSON.stringify(S)); } catch(e) {}
+}
+
+// ── Solver ─────────────────────────────────────────────────────────
+function toKg(v, u) { return u === 'lbs' ? v / K2L : v; }
+
+function solve(targetKg) {
+  const needed = targetKg - S.barKg;
+  if (needed < -0.01) return {plates:[], actualKg: S.barKg, approx: false, belowBar: true};
+  if (needed < 0.01)  return {plates:[], actualKg: S.barKg, approx: false, belowBar: false};
+
+  const perSide = needed / 2;
+  const sorted = S.inv
+    .map(p => ({...p, kgVal: toKg(p.weight, p.unit)}))
+    .sort((a,b) => b.kgVal - a.kgVal);
+
+  let rem = perSide;
+  const used = [];
+  for (const p of sorted) {
+    if (rem < 0.01) break;
+    const n = Math.min(p.qty, Math.floor(rem / p.kgVal + 1e-9));
+    if (n > 0) {
+      used.push({...p, used: n});
+      rem -= n * p.kgVal;
+    }
+  }
+
+  const achieved = perSide - rem;
+  const actualKg = S.barKg + achieved * 2;
+  const approx = rem > 0.049;
+  return {plates: used, actualKg, approx, belowBar: false};
+}
+
+// ── Format ─────────────────────────────────────────────────────────
+function f(v, d=1) {
+  const r = Math.round(v * Math.pow(10,d)) / Math.pow(10,d);
+  return r % 1 === 0 ? r.toFixed(0) : r.toFixed(d);
+}
+
+// ── Render ─────────────────────────────────────────────────────────
+function render() {
+  renderTabs();
+  renderRM();
+  renderTable();
+  renderCfg();
+  document.getElementById('barSel').value = S.barKg;
+  saveState();
+}
+
+function renderTabs() {
+  document.getElementById('exTabs').innerHTML = S.exs.map((e,i) =>
+    `<button class="ex-tab ${i===S.activeEx?'on':''}" onclick="setEx(${i})">${e.name}</button>`
+  ).join('');
+}
+
+function renderRM() {
+  const ex = S.exs[S.activeEx];
+  document.getElementById('rmNum').value = ex.rm;
+  document.getElementById('uLbs').classList.toggle('on', ex.unit==='lbs');
+  document.getElementById('uKg').classList.toggle('on',  ex.unit==='kg');
+  const rmKg  = toKg(ex.rm||0, ex.unit);
+  const rmLbs = rmKg * K2L;
+  document.getElementById('rmConv').textContent =
+    ex.unit === 'lbs' ? `= ${f(rmKg,1)} kg` : `= ${f(rmLbs,0)} lbs`;
+}
+
+function renderTable() {
+  const ex = S.exs[S.activeEx];
+  const rmKg = toKg(ex.rm||0, ex.unit);
+
+  const rows = PCTS.map((pct, idx) => {
+    const tKg = rmKg * pct / 100;
+    const {plates, actualKg, approx, belowBar} = solve(tKg);
+    const actualLbs = actualKg * K2L;
+
+    let plateHTML = '';
+    if (belowBar) {
+      plateHTML = '<span class="bajo-barra">bajo barra</span>';
+    } else if (plates.length === 0) {
+      plateHTML = '<span class="sola-barra">sola barra</span>';
+    } else {
+      plateHTML = plates.filter(p=>p.used>0).map(p => {
+        const st = chipStyle(p.kgVal);
+        const lbl = (p.used>1 ? p.used+'×':'') + p.weight + p.unit;
+        return `<span class="chip" style="${st}">${lbl}</span>`;
+      }).join('');
+    }
+
+    const rowClass = [
+      't-row',
+      pct===100 ? 'max-row' : '',
+      approx ? 'approx-row' : '',
+      pct < 60 ? 'low-row' : '',
+    ].join(' ');
+
+    return `<div class="${rowClass}" style="animation-delay:${idx*0.028}s">
+      <div class="t-pct">${pct}%</div>
+      <div class="t-kg ${approx?'approx':''}">${f(actualKg,1)}</div>
+      <div class="t-lbs">${f(actualLbs,0)}</div>
+      <div class="plates-cell">${plateHTML}</div>
+    </div>`;
+  });
+
+  document.getElementById('tBody').innerHTML = rows.join('');
+}
+
+function renderCfg() {
+  document.getElementById('invList').innerHTML = S.inv.map(p => `
+    <div class="inv-row">
+      <input class="ii" type="number" value="${p.weight}" step="0.25" min="0.25"
+        onchange="upPlate(${p.id},'weight',+this.value)">
+      <select class="ii sel" onchange="upPlate(${p.id},'unit',this.value)">
+        <option value="lbs" ${p.unit==='lbs'?'selected':''}>lbs</option>
+        <option value="kg"  ${p.unit==='kg' ?'selected':''}>kg</option>
+      </select>
+      <input class="ii" type="number" value="${p.qty}" min="0" max="20" step="2"
+        onchange="upPlate(${p.id},'qty',+this.value)">
+      <button class="del" onclick="delPlate(${p.id})">✕</button>
+    </div>`).join('');
+
+  document.getElementById('exList').innerHTML = S.exs.map((e,i) => `
+    <div class="ex-row">
+      <input class="ex-ni" type="text" value="${e.name}"
+        onchange="upEx(${e.id},'name',this.value)">
+      ${S.exs.length>1 ? `<button class="del" onclick="delEx(${e.id})">✕</button>` : ''}
+    </div>`).join('');
+}
+
+// ── Actions ────────────────────────────────────────────────────────
+function setEx(i) {
+  S.activeEx = i;
+  render();
+}
+
+function setBar(kg) {
+  S.barKg = kg;
+  renderTable();
+  saveState();
+}
+
+function onRM(val) {
+  S.exs[S.activeEx].rm = parseFloat(val)||0;
+  renderRM();
+  renderTable();
+  saveState();
+}
+
+function setUnit(u) {
+  const ex = S.exs[S.activeEx];
+  if (u === ex.unit) return;
+  const kg = toKg(ex.rm||0, ex.unit);
+  ex.rm   = u==='lbs' ? Math.round(kg*K2L) : Math.round(kg);
+  ex.unit = u;
+  renderRM();
+  renderTable();
+  saveState();
+}
+
+function upPlate(id, field, val) {
+  const p = S.inv.find(x=>x.id===id);
+  if (p) { p[field]=val; renderTable(); renderCfg(); saveState(); }
+}
+function delPlate(id) {
+  S.inv = S.inv.filter(x=>x.id!==id);
+  renderCfg(); renderTable(); saveState();
+}
+function addPlate() {
+  S.inv.push({id:Date.now(), weight:10, unit:'lbs', qty:2});
+  renderCfg(); saveState();
+}
+
+function upEx(id, field, val) {
+  const e = S.exs.find(x=>x.id===id);
+  if (e) { e[field]=val; renderTabs(); saveState(); }
+}
+function delEx(id) {
+  S.exs = S.exs.filter(x=>x.id!==id);
+  if (S.activeEx >= S.exs.length) S.activeEx = 0;
+  renderCfg(); renderTabs(); saveState();
+}
+function addEx() {
+  S.exs.push({id:Date.now(), name:'Ejercicio', rm:100, unit:'lbs'});
+  renderCfg(); renderTabs(); saveState();
+}
+
+// ── Config modal ───────────────────────────────────────────────────
+let cfgOpen = false;
+function toggleCfg() {
+  cfgOpen = !cfgOpen;
+  document.getElementById('overlay').classList.toggle('on', cfgOpen);
+  document.getElementById('cfgBtn').classList.toggle('on', cfgOpen);
+  if (cfgOpen) renderCfg();
+}
+function bgClick(e) {
+  if (e.target === document.getElementById('overlay')) toggleCfg();
+}
+
+// ── Init ───────────────────────────────────────────────────────────
+render();
+
+// Remove splash after animation
+setTimeout(() => {
+  const sp = document.getElementById('splash');
+  if (sp) sp.remove();
+}, 1900);
+</script>
+</body>
+</html>
